@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Nome utente o password non validi, mostra un messaggio di errore
             $_SESSION['error_message'] = "Nome utente o password non validi.";
-            header('Location: login.php');
+            header('Location: index.php');
             exit;
         }
     }
