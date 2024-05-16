@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES["image"]["name"])) {
         // Carica la nuova immagine sul server
         $image = $_FILES["image"];
-        $image_path = './images/' . $image['name'];
+        $image_path = './uploads/' . $image['name'];
         move_uploaded_file($image['tmp_name'], $image_path);
 
         // Query per aggiornare il gioco nel database con il titolo e l'immagine

@@ -39,12 +39,19 @@ $games = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     .container {
         background-color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+    }
+
+    .card .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
     }
 </style>
 
 <body class="text-white">
-    <div class="container">
-        <h1 class="mt-4 mb-3 text-center">HAI EFFETTUALO L'ACCESSO ALLA PAGINA DI MODIFICA</h1>
+    <div class="container ">
+        <h1 class="mt-4 mb-3 py-2 text-center">HAI EFFETTUALO L'ACCESSO ALLA PAGINA DI MODIFICA</h1>
         <p class="text-center font-weight-bold mb-5 mt-4">NON CE LA POZZ FÀ</p>
 
         <!-- Aggiungi Nuovo Gioco -->
@@ -72,8 +79,10 @@ $games = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="card-body">
                         <h4 class="card-title text-center font-weight-bold"><?php echo $game['title']; ?></h4>
-                        <div class="card h-100 shadow-lg rounded">
-                            <img class="card-img-top mb-4 " src="<?php echo $game['image']; ?>" alt="<?php echo $game['title']; ?>">
+                        <div class="card h-100 shadow-lg rounded ">
+                            <div class="image-container">
+                                <img class="card-img-top mb-3 mt-2 " src="<?php echo $game['image']; ?>" alt="<?php echo $game['title']; ?>">
+                            </div>
                             <form class="px-3" action="modifica_gioco.php" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="existing_title" value="<?php echo $game['title']; ?>">
                                 <input type="hidden" name="id" value="<?php echo $game['id']; ?>">
@@ -105,7 +114,7 @@ $games = $statement->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </div>
 
-        <a class="logout btn btn-primary shadow-lg rounded font-weight-bold mt-3 mb-5" href="logout.php">Logout</a>
+        <a class="logout btn btn-primary shadow-lg rounded font-weight-bold mt-3 mb-3" href="logout.php">Logout</a>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -10,6 +10,8 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 
 // Includi il file della classe Database
 require_once './connessione_database.php';
+$pdo = (new Database)->connect();
+
 
 // Crea un'istanza della classe Database per la connessione al database
 $database = new Database();
@@ -47,18 +49,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_SESSION['login_attempts'] >= 3) {
             // Mostra il pop-up di avviso con JavaScript
             echo '<script>alert("Hai superato il limite di prova, verrai reindirizzato alla pagina di registrazione.");</script>';
+            // Resetta il conteggio dei tentativi
+            $_SESSION['login_attempts'] = 0;
             // Reindirizza alla pagina di registrazione dopo un certo tempo
-            echo '<script>setTimeout(function(){ window.location.href = "register.php"; });</script>';
+            echo '<script>setTimeout(function(){ window.location.href = "register.php"; },);</script>';
         } else {
-            // Nome utente o password non validi, mostra un messaggio di errore
-            $_SESSION['error_message'] = "Nome utente o password non validi.";
+
+            if ($_SESSION['login_attempts'] > 0) {
+                // Nome utente o password non validi, mostra un messaggio di errore
+                $_SESSION['error_message'] = "Nome utente o password non validi.";
+            } else {
+                unset($_SESSION['error_message']);
+            }
             header('Location: index.php');
             exit;
+            die();
         }
     }
 }
 
 ?>
+
 
 
 <!DOCTYPE html>
@@ -118,8 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class=" d-flex align-items-center" style="height: 100vh;">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2 class="font-weight-bold">LOGIN</h2>
-            <?php if (isset($error_message)) : ?>
-                <p class="error"><?php echo $error_message; ?></p>
+            <?php if (isset($_SESSION['error_message'])) : ?>
+                <p class="error"><?php echo $_SESSION['error_message']; ?></p>
+                <?php unset($_SESSION['error_message']); ?>
             <?php endif; ?>
             <label for="username">Nome utente:</label>
             <input type="text" id="username" name="username" required>
@@ -128,6 +140,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Accedi">
         </form>
     </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('username').value = '';
+        }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
