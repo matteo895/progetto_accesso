@@ -70,11 +70,11 @@ $games = $statement->fetchAll(PDO::FETCH_ASSOC);
         <div class="row">
             <?php foreach ($games as $game) : ?>
                 <div class="col-lg-4 col-md-6 mb-3">
-                    <div class="card-body ">
+                    <div class="card-body">
                         <h4 class="card-title text-center font-weight-bold"><?php echo $game['title']; ?></h4>
                         <div class="card h-100 shadow-lg rounded">
                             <img class="card-img-top mb-4 " src="<?php echo $game['image']; ?>" alt="<?php echo $game['title']; ?>">
-                            <form action="modifica_gioco.php" method="post" enctype="multipart/form-data">
+                            <form class="px-3" action="modifica_gioco.php" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="existing_title" value="<?php echo $game['title']; ?>">
                                 <input type="hidden" name="id" value="<?php echo $game['id']; ?>">
                                 <div class="form-group">
